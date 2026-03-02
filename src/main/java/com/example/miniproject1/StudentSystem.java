@@ -107,8 +107,10 @@ public class StudentSystem extends Application {
 
         Button submitBtn = new Button("Submit");
         Text errorMsg1 = new Text();
+        errorMsg1.setFill(Color.RED);
         HBox hbox = new HBox(submitBtn, errorMsg1);
         hbox.setAlignment(Pos.CENTER);
+
 
         TableView<Student> table = new TableView<>();
 
@@ -169,7 +171,9 @@ public class StudentSystem extends Application {
                     && !degree.isEmpty()
                     && !address.isEmpty()
                     && !age.isEmpty()
-                    && !gpa.isEmpty()) {
+                    && !gpa.isEmpty()
+                    && isNumeric(gpa)
+                    && isNumeric(age)) {
                 data.add(new Student(username, dob, gender, degree, address, age, gpa));
 
                 userFld.setText("");
@@ -179,6 +183,8 @@ public class StudentSystem extends Application {
                 addrFld.setText("");
                 ageFld.setText("");
                 gpaFld.setText("");
+            }else{
+                errorMsg1.setText("Please fill all the fields and make sure that age and gpa are numbers");
             }
         });
 
@@ -216,6 +222,7 @@ public class StudentSystem extends Application {
 
         Text welcomeMsg = new Text("Welcome");
         welcomeMsg.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        welcomeMsg.setFill(Color.GREEN);
         StackPane welcomeStack = new StackPane();
         welcomeStack.getChildren().add(welcomeMsg);
         Scene welcomeScene = new Scene(welcomeStack, 300, 275);
@@ -243,6 +250,15 @@ public class StudentSystem extends Application {
 
         primaryStage.show();
 
+    }
+
+    public boolean isNumeric(String strNum) {
+        try {
+            Integer.parseInt(strNum);
+            return true;
+        }catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     //Data Model for Student TableView
