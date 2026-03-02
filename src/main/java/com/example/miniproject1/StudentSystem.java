@@ -101,8 +101,10 @@ public class StudentSystem extends Application {
         Label gpaLbl = new Label("GPA :");
         grid1.add(gpaLbl, 0, 7);
 
-        TextField gpaFld = new TextField();
-        gpaFld.setPromptText("Enter your GPA");
+        Slider gpaFld = new Slider(0, 100, 0);
+        gpaFld.setMajorTickUnit(1);
+        gpaFld.setMinorTickCount(0);
+        gpaFld.setSnapToTicks(true);
         grid1.add(gpaFld, 1, 7);
 
         Button submitBtn = new Button("Submit");
@@ -163,7 +165,7 @@ public class StudentSystem extends Application {
             String degree = choiceBox.getValue();
             String address = addrFld.getText();
             String age = ageFld.getText();
-            String gpa = gpaFld.getText();
+            String gpa = String.valueOf((int) gpaFld.getValue());
 
             if(!username.isEmpty()
                     && !dob.isEmpty()
@@ -171,9 +173,8 @@ public class StudentSystem extends Application {
                     && !degree.isEmpty()
                     && !address.isEmpty()
                     && !age.isEmpty()
-                    && !gpa.isEmpty()
-                    && isNumeric(gpa)
-                    && isNumeric(age)) {
+                    && isNumeric(age)
+                    && isNumeric(gpa)) {
                 data.add(new Student(username, dob, gender, degree, address, age, gpa));
 
                 userFld.setText("");
@@ -182,7 +183,7 @@ public class StudentSystem extends Application {
                 choiceBox.getSelectionModel().selectFirst();
                 addrFld.setText("");
                 ageFld.setText("");
-                gpaFld.setText("");
+                gpaFld.setValue(0);
             }else{
                 errorMsg1.setText("Please fill all the fields and make sure that age and gpa are numbers");
             }
@@ -254,6 +255,7 @@ public class StudentSystem extends Application {
 
     public boolean isNumeric(String strNum) {
         try {
+            System.out.println(strNum);
             Integer.parseInt(strNum);
             return true;
         }catch (NumberFormatException e) {
